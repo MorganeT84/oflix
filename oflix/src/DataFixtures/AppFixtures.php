@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\DataFixtures\Provider\OflixProvider;
 use App\Entity\Episode;
 use App\Entity\Season;
 use App\Entity\TvShow;
@@ -14,23 +15,26 @@ class AppFixtures extends Fixture
 {
     public function load(ObjectManager $entityManager)
     {
+        $faker = Factory::create();
+        $faker->addProvider(new OflixProvider($faker));
+
         //créer un show
         for ($i = 0; $i < 4; $i++) {
-            # code...
-
             $got = new TvShow();
             // Ces valeurs sont définit par defaut dans la methode construct de entity
             //? $got->setCreatedAt(new DateTimeImmutable());
             //? $got->setNbLikes(0);
-            $got->setTitle($this->tvShowTitle());
-            $got->setSynopsis('Hackers - Lorem ipsum, dolor sit amet consectetur adipisicing elit. Distinctio labore dolorem dolores molestiae voluptas soluta. Itaque, magnam! Commodi perferendis culpa repellendus, corrupti voluptates amet delectus eaque dolorum, iste voluptatibus veniam quisquam corporis deleniti mollitia odio a ad numquam reprehenderit est cum qui eum. Tenetur reiciendis ipsum, illo quibusdam minus hic?');
+             $got->setTitle($faker->unique()->tvShowTitle());
+            // avec faker aléatoirement : $got->setTitle($faker->catchPhrase(mt_rand(1, 4), true));
+            
+            $got->setSynopsis($faker->unique()->realText(200));
             $got->setPublishedAt(new DateTimeImmutable('01-01-01'));
 
             $entityManager->persist($got);
 
             //créer des saisons
             $year = 2010;
-            $nbSeason = mt_rand(1,5);
+            $nbSeason = mt_rand(1, 5);
             for ($seasonNumber = 1; $seasonNumber <= $nbSeason; $seasonNumber++) {
                 $season = new Season();
                 $seasonYear = $year + $seasonNumber;
@@ -58,17 +62,5 @@ class AppFixtures extends Fixture
             //enregistrer le tout en bdd
             $entityManager->flush();
         }
-    }
-
-    public function tvShowTitle(): string
-    {
-        $tvShows = [
-            'Atie',
-            'Stranger things',
-            'Casa de papel',
-            'drôle',
-            'Malcom',
-        ];
-        return $tvShows[mt_rand(0, count($tvShows))];
-    }
+    } 
 }
