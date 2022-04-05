@@ -1,0 +1,14 @@
+HAS, 0N TVSHOW, 11 SEASON
+SEASON : season number, published at
+CONTAINS, 0N SEASON , 11 EPISODE
+EPISODE : episode number, title
+
+TVSHOW : title, synopsis, image, nbLikes, published at
+LINKED, 0N TVSHOW, 0N CATEGORY
+CATEGORY : name
+:
+
+roleplayTv, 11 RolePLAY, 1N TVSHOW
+RolePLAY:  creditOrder
+roleplayCharacter, 11 RolePLAY, 1N CHARACTER
+CHARACTER : firstname, lastname, gender, bio, age
