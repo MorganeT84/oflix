@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Serie
+	{{ tv_show.title }}
+	| Oflix
+{% endblock %}
+
+{% block body %}
+	<h1>{{ tv_show.title }}</h1>
+	{{ dump(tv_show) }}
+	<h2>Liste des saisons</h2>
+	{% for season in tv_show.seasons %}
+		<h3>{{ season.seasonNumber }}</h3>
+		<h4>La liste des épisodes</h4>
+		{% for episode in season.episodes %}
+			{{ dump(episode) }}
+		{% endfor %}
+
+	{% endfor %}
+{% endblock %}
