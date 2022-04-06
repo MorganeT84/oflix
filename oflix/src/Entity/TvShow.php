@@ -51,6 +51,7 @@ class TvShow
 
         // on ajoute ces valeurs pour automatiser des valeurs par defaut
         $this->createdAt = new DateTimeImmutable();
+        $this->publishedAt = new DateTimeImmutable();
         $this->nbLikes = 0;
     }
 

@@ -40,6 +40,7 @@ class Season
 
         // on ajoute ces valeurs pour automatiser des valeurs par defaut
         $this->createdAt = new DateTimeImmutable();
+        $this->publishedAt = new DateTimeImmutable();
     }
 
     public function getId(): ?int

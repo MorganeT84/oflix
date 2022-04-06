@@ -1,0 +1,9 @@
+App\Entity\TvShow:
+    tvshow_{1..4}:
+        title: '<word()>' 
+        synopsis: '<realText(200)>'
+        categories: '5x @category_*'
+
+App\Entity\Category:
+    category_{1..10}:
+        name: '<jobTitle()>'

@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\DataFixtures\Provider\OflixProvider;
+use App\Entity\Category;
 use App\Entity\Episode;
 use App\Entity\Season;
 use App\Entity\TvShow;
@@ -18,21 +19,42 @@ class AppFixtures extends Fixture
         $faker = Factory::create();
         $faker->addProvider(new OflixProvider($faker));
 
+        $categoryList = [];
+        for ($categoryNumber = 0; $categoryNumber < 10; $categoryNumber++) {
+            $category = new Category();
+            $entityManager->persist($category);
+
+            $category->setName($faker->jobTitle());
+
+            // on rajoute toutes les catégories dans ce tableau
+            $categoryList[] = $category;
+        }
+
         //créer un show
         for ($i = 0; $i < 4; $i++) {
-            $got = new TvShow();
+            $tvShow = new TvShow();
             // Ces valeurs sont définit par defaut dans la methode construct de entity
-            //? $got->setCreatedAt(new DateTimeImmutable());
-            //? $got->setNbLikes(0);
-             $got->setTitle($faker->unique()->tvShowTitle());
-            // avec faker aléatoirement : $got->setTitle($faker->catchPhrase(mt_rand(1, 4), true));
+            //? $tvShow->setCreatedAt(new DateTimeImmutable());
+            //? $tvShow->setNbLikes(0);
+             $tvShow->setTitle($faker->unique()->tvShowTitle());
+            // avec faker aléatoirement : $tvShow->setTitle($faker->catchPhrase(mt_rand(1, 4), true));
             
-            $got->setSynopsis($faker->unique()->realText(200));
-            $got->setPublishedAt(new DateTimeImmutable('01-01-01'));
+            $tvShow->setSynopsis($faker->unique()->realText(200));
+            //$tvShow->setPublishedAt(new DateTimeImmutable('01-01-01'));
 
-            $entityManager->persist($got);
+            //! récupérons jusqu'à 4 catégories au hasard
+            $nbCategories = mt_rand(0, 4);
+            $categoryForTvShow = $faker->randomElements($categoryList, $nbCategories);
 
-            //créer des saisons
+            // créons les associations avec le tvshow actuel
+            foreach($categoryForTvShow as $currentCategory)
+            {
+                $tvShow->addCategory($currentCategory);
+            }
+
+            $entityManager->persist($tvShow);
+
+            //! créer des saisons
             $year = 2010;
             $nbSeason = mt_rand(1, 5);
             for ($seasonNumber = 1; $seasonNumber <= $nbSeason; $seasonNumber++) {
@@ -41,7 +63,7 @@ class AppFixtures extends Fixture
                 $season->setPublishedAt(new DateTimeImmutable($seasonYear . '-01-01'));
                 $season->setSeasonNumber($seasonNumber);
                 //associer les saisons au show
-                $season->setTvShow(($got));
+                $season->setTvShow(($tvShow));
 
                 $entityManager->persist($season);
 
