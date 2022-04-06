@@ -55,6 +55,13 @@ class TvShow
         $this->nbLikes = 0;
     }
 
+    // Register Magic Method to Print the name of the State e.g California
+    public function __toString()
+    {
+        return $this->id;
+    }
+
+
     public function getId(): ?int
     {
         return $this->id;

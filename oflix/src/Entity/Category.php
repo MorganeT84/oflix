@@ -7,6 +7,8 @@ use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\Length;
 
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 class Category
@@ -17,6 +19,15 @@ class Category
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank(
+        message: 'Merci de saisir un nom pour la catégorie',   
+    )]
+    #[Assert\Length(
+        min:2, 
+        max:20,
+        minMessage:'la catégorie doit avoir au moins 2 caracteres',
+        maxMessage:'la catégorie doit avoir max 20 caracteres'
+    )]
     private $name;
 
     #[ORM\Column(type: 'datetime_immutable')]
@@ -31,9 +42,9 @@ class Category
     public function __construct()
     {
         $this->tvShows = new ArrayCollection();
-         // on ajoute ces valeurs pour automatiser des valeurs par defaut
-         $this->createdAt = new DateTimeImmutable();
-         $this->publishedAt = new DateTimeImmutable();
+        // on ajoute ces valeurs pour automatiser des valeurs par defaut
+        $this->createdAt = new DateTimeImmutable();
+        $this->publishedAt = new DateTimeImmutable();
     }
 
     public function getId(): ?int

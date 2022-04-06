@@ -17,4 +17,48 @@
 		{% endfor %}
 
 	{% endfor %}
+
+	<main>
+
+		<section class="py-5 text-center container">
+			<div class="row py-lg-5">
+				<div class="col-lg-6 col-md-8 mx-auto">
+					<h1 class="fw-light">{{ tv_show.title }}</h1>
+					<img src="https://m.media-amazon.com/images/M/MV5BMWI0OTJlYTItNzMwZi00YzRiLWJhMjItMWRlMDNhZjNiMzJkXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_.jpg" alt="" height="400">
+
+					<p class="lead text-muted">
+						{% for season in tv_show.seasons %}
+							<a href="#">
+								<span class="badge bg-secondary">Saison {{ season.seasonNumber }}
+								</span>
+							</a>
+							<ul>
+								{% for episode in season.episodes %}
+									<li>{{ dump(episode) }}</li>
+								{% endfor %}
+							</ul>
+
+						{% endfor %}
+					</p>
+
+					<p class="lead text-muted">
+						Avec :
+						<a href="#">Pedro Pascal</a>,
+						<a href="#">Diana Lee Inosanto</a>,
+						<a href="#">Richard Ayoade</a>
+					</p>
+				</div>
+			</div>
+		</section>
+
+		<div class="py-5 bg-light">
+			<div class="container">
+				<p>
+					Après les aventures de Jango et Boba Fett, un nouveau héros émerge dans l'univers Star Wars. L'intrigue, située entre la chute de l'Empire et l'émergence du Premier Ordre, suit les voyages d'un chasseur de primes solitaire dans les contrées les plus éloignées
+																									                    de la Galaxie, loin de l’autorité de la Nouvelle République.
+				</p>
+			</div>
+		</div>
+
+	</main>
 {% endblock %}

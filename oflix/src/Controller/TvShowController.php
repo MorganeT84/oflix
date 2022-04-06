@@ -16,7 +16,7 @@ class TvShowController extends AbstractController
     public function read($id, TvShowRepository $tvShowRepository): Response
     {
         // recup le tvshow dont id fourni via le paramConverter ou le repository
-        $tvShow =$tvShowRepository->findOneWithAllInfos($id);
+        $tvShow =$tvShowRepository->findOneWithInfosDQL($id);
 
         return $this->render('tv_show/read.html.twig', [
             'tv_show' => $tvShow,

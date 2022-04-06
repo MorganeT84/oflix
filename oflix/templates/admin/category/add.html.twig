@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CategoryController!{% endblock %}
+
+{% block body %}
+
+{{ form_start(category_form) }}
+
+
+    {{ form_row(category_form.name) }}
+    
+    {# 
+    {{ form_label(category_form.name) }}
+    {{ form_widget(category_form.name) }} 
+    #}
+
+    {{ form_row(category_form.createdAt) }}
+
+    <button type="submit">Créer</button>
+
+{{ form_end(category_form) }}
+
+{% endblock %}
