@@ -43,6 +43,9 @@ class TvShow
     #[ORM\OneToMany(mappedBy: 'tvShow', targetEntity: RolePlay::class)]
     private $rolePlays;
 
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private $nbLikes;
+
     public function __construct()
     {
         $this->seasons = new ArrayCollection();
@@ -219,6 +222,18 @@ class TvShow
                 $rolePlay->setTvShow(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getNbLikes(): ?int
+    {
+        return $this->nbLikes;
+    }
+
+    public function setNbLikes(?int $nbLikes): self
+    {
+        $this->nbLikes = $nbLikes;
 
         return $this;
     }

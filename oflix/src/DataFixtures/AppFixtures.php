@@ -4,7 +4,9 @@ namespace App\DataFixtures;
 
 use App\DataFixtures\Provider\OflixProvider;
 use App\Entity\Category;
+use App\Entity\Character;
 use App\Entity\Episode;
+use App\Entity\RolePlay;
 use App\Entity\Season;
 use App\Entity\TvShow;
 use DateTimeImmutable;
@@ -30,20 +32,40 @@ class AppFixtures extends Fixture
             $categoryList[] = $category;
         }
 
-        //créer un show
-        for ($i = 0; $i < 4; $i++) {
-            $tvShow = new TvShow();
-            // Ces valeurs sont définit par defaut dans la methode construct de entity
-            //? $tvShow->setCreatedAt(new DateTimeImmutable());
-            //? $tvShow->setNbLikes(0);
-             $tvShow->setTitle($faker->unique()->tvShowTitle());
-            // avec faker aléatoirement : $tvShow->setTitle($faker->catchPhrase(mt_rand(1, 4), true));
-            
-            $tvShow->setSynopsis($faker->unique()->realText(200));
-            //$tvShow->setPublishedAt(new DateTimeImmutable('01-01-01'));
+        $characterList = [];
+        for ($characterNumber = 0; $characterNumber < 100; $characterNumber++) {
+            $character = new Character();
+            $entityManager->persist($character);
 
-            //! récupérons jusqu'à 4 catégories au hasard
-            $nbCategories = mt_rand(0, 4);
+            $gender = $faker->randomElement([Character::GENDER_MALE, Character::GENDER_FEMALE]);
+            $character->setGender($gender);
+            if ($gender === Character::GENDER_MALE) {
+                $character->setFirstName($faker->firstNameMale());
+            } else {
+                $character->setFirstName($faker->firstNameFemale());
+            }
+            $character->setLastName($faker->lastName());
+            $character->setBio($faker->realText(100));
+            $character->setAge( $faker->numberBetween(5, 150));
+
+            // on rajoute toutes les catégories dans ce tableau
+            $characterList[] = $character;
+        }
+
+        // créer un  show
+        for ($i = 1; $i < 5; $i++) {
+            $tvShow = new TvShow();
+            $entityManager->persist($tvShow);
+            $title = $faker->unique()->tvShowTitle();
+            $tvShow->setTitle($title);
+            $imageId = $faker->numberBetween(1, 500);
+            $tvShow->setSynopsis($faker->realText(200));
+            $tvShow->setNbLikes($faker->randomNumber(5));
+            $tvShow->setImage("https://picsum.photos/id/{$imageId}/200/300");
+            
+            
+            // récupérons jusqu'à 4 catégories au hasard
+            $nbCategories = $faker->numberBetween(0, 4);
             $categoryForTvShow = $faker->randomElements($categoryList, $nbCategories);
 
             // créons les associations avec le tvshow actuel
@@ -52,37 +74,57 @@ class AppFixtures extends Fixture
                 $tvShow->addCategory($currentCategory);
             }
 
-            $entityManager->persist($tvShow);
+            // récupérons jusqu'à 25 personnages au hasard
+            $nbCharacters = $faker->numberBetween(5, 25);
+            $characterForTvShow = $faker->randomElements($characterList, $nbCharacters);
 
-            //! créer des saisons
-            $year = 2010;
-            $nbSeason = mt_rand(1, 5);
+            // créons les associations avec le tvshow actuel
+            $creditOrder = 1;
+            foreach($characterForTvShow as $currentCharacter)
+            {
+                $rolePlay = new RolePlay();
+                $entityManager->persist($rolePlay);
+
+                $rolePlay->setPersonage($currentCharacter);
+                $rolePlay->setTvshow($tvShow);
+                $rolePlay->setCreditOrder($creditOrder);
+                $creditOrder++;
+            }
+
+            // créer des saisons
+            $year = $faker->dateTimeThisCentury()->format('Y');
+            $nbSeason = $faker->numberBetween(1, 10);
             for ($seasonNumber = 1; $seasonNumber <= $nbSeason; $seasonNumber++) {
                 $season = new Season();
+                $entityManager->persist($season);
+
                 $seasonYear = $year + $seasonNumber;
                 $season->setPublishedAt(new DateTimeImmutable($seasonYear . '-01-01'));
                 $season->setSeasonNumber($seasonNumber);
-                //associer les saisons au show
-                $season->setTvShow(($tvShow));
+                // associer les saisons au show
+                $season->setTvShow($tvShow);
 
-                $entityManager->persist($season);
-
-                //creer des épisodes
-                $nbEpisode = mt_rand(4, 15);
-                for ($episodeNumber = 1; $episodeNumber <= $nbEpisode; $episodeNumber++) {
+                // pour la saison actuelle, on crée des épisodes
+                $nbEpisodes = $faker->numberBetween(4, 15);
+                for ($episodeNumber = 1; $episodeNumber <= $nbEpisodes; $episodeNumber++) {
                     $episode = new Episode();
-                    $episode->setEpisodeNumber($episodeNumber);
-                    $episode->setTitle('S0' . $seasonNumber . 'x0' . $episodeNumber);
-                    $episode->setPublishedAt(new DateTimeImmutable($seasonYear . '-01-01'));
-                    //associer des épisodes au saison
-                    $episode->setSeason($season);
-
                     $entityManager->persist($episode);
+
+                    $episode->setEpisodeNumber($episodeNumber);
+                    $episodeTitle = $tvShow->getTitle() . ' - S0' . $seasonNumber . 'x0' . $episodeNumber;
+                    if ($episodeNumber >= 10) {
+                        $episodeTitle = $tvShow->getTitle() . ' - S0' . $seasonNumber . 'x' . $episodeNumber;
+                    }
+                    $episode->setTitle($episodeTitle);
+                    // associer les épisodes aux saisons
+                    $episode->setSeason($season);
                 }
             }
-
-            //enregistrer le tout en bdd
-            $entityManager->flush();
         }
-    } 
+
+        // enregistrer le tout en BDD
+        $entityManager->flush();
+
+    }
+
 }

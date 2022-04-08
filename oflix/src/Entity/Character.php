@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\CharacterRepository;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -11,6 +12,9 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: '`character`')]
 class Character
 {
+    const GENDER_MALE = 1;
+    const GENDER_FEMALE = 2;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
@@ -42,6 +46,7 @@ class Character
 
     public function __construct()
     {
+        $this->createdAt = new DateTimeImmutable();
         $this->rolePlays = new ArrayCollection();
     }
 

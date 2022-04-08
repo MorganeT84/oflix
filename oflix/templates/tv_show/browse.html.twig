@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Les séries - Oflix{% endblock %}
+
+{% block body %}
+
+        <section class="py-5 text-center container">
+            <div class="row py-lg-5">
+                <div class="col-lg-6 col-md-8 mx-auto">
+                    <h1 class="fw-light">Dernières séries</h1>
+                </div>
+            </div>
+        </section>
+
+        {% set partial_tv_show_list = tv_show_list %}
+        {% include "_partials/_tvshow_list.html.twig" %}
+{% endblock %}

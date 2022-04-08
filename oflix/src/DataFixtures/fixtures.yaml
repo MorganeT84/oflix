@@ -1,9 +1,37 @@
-App\Entity\TvShow:
-    tvshow_{1..4}:
-        title: '<word()>' 
-        synopsis: '<realText(200)>'
-        categories: '5x @category_*'
-
 App\Entity\Category:
     category_{1..10}:
         name: '<jobTitle()>'
+
+App\Entity\Character:
+    character_{1..100}:
+        gender: '<randomElement([1, 2])>'
+        firstName: '<firstName()>'
+        lastName: '<lastName()>'
+        bio: '<realText(100)>'
+        age: '<numberBetween(5, 150)>'
+
+App\Entity\TvShow:
+    tvshow_{1..5}:
+        title (unique): '<tvShowTitle()>' 
+        synopsis: '<realText(200)>'
+        nbLikes: '<randomNumber(5)>'
+        image: '<imageUrl()>'
+        categories: '<numberBetween(0, 4)>x @category_*'
+
+App\Entity\RolePlay:
+    roleplay_{1..200}:
+        personage: '@character_*'
+        tvShow: '@tvshow_*'
+        creditOrder: '<current()>'
+
+App\Entity\Season:
+    season_{1..40}:
+        tvShow: '@tvshow_*'
+        publishedAt: '<date_create_immutable()>'
+        seasonNumber: '<current()>'
+
+App\Entity\Episode:
+    episode_{1..400}:
+        season: '@season_*'
+        episodeNumber: '<current()>'
+        title: 'episode <current()>'

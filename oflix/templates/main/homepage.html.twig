@@ -1,0 +1,21 @@
+ {% extends 'base.html.twig' %}
+
+{% block title %}Bienvenue sur O'flix{% endblock %}
+
+{% block body %}
+
+        <section class="py-5 text-center container">
+            <div class="row py-lg-5">
+                <div class="col-lg-6 col-md-8 mx-auto">
+                    <h1 class="fw-light">Séries TV et bien plus en illimité.</h1>
+                    <p class="lead text-muted">Où que vous soyez. Annulez à tout moment.</p>
+                    <p>
+                        <a href="login.html" class="btn btn-danger my-2">Se connecter</a>
+                        <a href="#" class="btn btn-secondary my-2">Créer un compte</a>
+                    </p>
+                </div>
+            </div>
+        </section>
+        {% set partial_tv_show_list = all_tv_show %}
+        {% include "_partials/_tvshow_list.html.twig" %}
+{% endblock %}

@@ -12,6 +12,17 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/tvshow', name: 'tvshow')]
 class TvShowController extends AbstractController
 {
+    #[Route('/list', name: '_browse')]
+    public function browse(TvShowRepository $tvShowRepository): Response
+    {
+        // recup le tvshow dont id fourni via le paramConverter ou le repository
+        $tvShowList =$tvShowRepository->findAll();
+
+        return $this->render('tv_show/browse.html.twig', [
+            'tv_show_list' => $tvShowList,
+        ]);
+    }
+
     #[Route('/{id}', name: '_read')]
     public function read($id, TvShowRepository $tvShowRepository): Response
     {

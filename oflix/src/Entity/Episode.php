@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\EpisodeRepository;
 use DateTimeImmutable;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: EpisodeRepository::class)]
@@ -39,6 +40,7 @@ class Episode
 
         // on ajoute ces valeurs pour automatiser des valeurs par defaut
         $this->createdAt = new DateTimeImmutable();
+        $this->publishedAt = new DateTimeImmutable();
     }
 
     public function getId(): ?int
