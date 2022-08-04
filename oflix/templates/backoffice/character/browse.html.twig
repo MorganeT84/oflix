@@ -1,0 +1,38 @@
+{% extends 'backoffice/base_backoffice.html.twig' %}
+
+{% block title %}Liste des personnages!
+{% endblock %}
+
+{% block body %}
+
+	<h1>Liste des personnage</h1>
+	{{ include('_partials/_flash_messages.html.twig') }}
+	<a href="add" class="btn btn-primary">Ajouter</a>
+	<table class="table">
+		<thead>
+			<tr>
+				<th scope="col" class="table-info">id</th>
+				<th scope="col" class="table-info">Nom</th>
+				<th scope="col" class="table-info">Bio</th>
+				<th scope="col" class="table-info">Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for item in character_list %}
+				<tr>
+					<th scope="row">{{item.id}}</th>
+					<td>{{item.firstname}}
+						{{item.lastname}}</td>
+					<td>
+						<p>{{item.bio}}</p>
+					</td>
+					<td>
+						<a href="{{item.id}}" class="btn btn-success">voir</a>
+						<a href="{{item.id}}/update" class="btn btn-primary">modifier</a>
+						<a href="delete/{{item.id}}" class="btn btn-danger">supprimer</a>
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+{% endblock %}

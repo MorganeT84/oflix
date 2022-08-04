@@ -1,0 +1,44 @@
+{% extends 'backoffice/base_backoffice.html.twig' %}
+
+{% block title %}
+	{% if page == 'create' %}
+		New Character
+	{% else %}
+		Character
+		{{ character.firstname }}
+		{{ character.lastname }}
+	{% endif %}
+{% endblock %}
+
+{% block body %}
+
+	{% if page == 'create' %}
+		New Character
+	{% else %}
+		Character
+		{{ character.firstname }}
+		{{ character.lastname }}
+	{% endif %}
+	{{ include('_partials/_flash_messages.html.twig') }}
+	<div style="width: 18rem;">
+		{{ form_start(character_form) }}
+
+		{{ form_row(character_form.firstname) }}
+		{{ form_row(character_form.lastname) }}
+		{{ form_row(character_form.gender) }}
+		{{ form_row(character_form.bio) }}
+		{{ form_row(character_form.age) }}
+
+		<button type="submit" class="btn btn-primary mt-4">
+			{% if 'backoffice_character_add' == app.request.get('_route') %}
+				Create
+			{% else %}
+				Update
+			{% endif %}
+		</button>
+
+		{{ form_end(character_form) }}
+	</div>
+
+
+{% endblock %}

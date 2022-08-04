@@ -1,0 +1,15 @@
+{% extends 'backoffice/base_backoffice.html.twig' %}
+
+{% block title %}la categorie{% endblock %}
+
+{% block body %}
+
+<h1>la catégorie :</h1>
+
+<div class="card" style="width: 18rem;">
+				<div class="card-body">
+					<h5 class="card-title">{{category.name}}</h5> 
+					<a href="{{category.id}}/update" class="btn btn-primary">modifier</a>
+				</div>
+			</div>
+{% endblock %}

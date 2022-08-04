@@ -1,0 +1,50 @@
+{% extends "base.html.twig" %}
+
+{% block title %} - Backoffice{% endblock %}
+
+{% block subnav %}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Backoffice</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a 
+          {% if app.request.get('_route') starts with 'backoffice_tvshow' %}
+          class="nav-link active" aria-current="page"
+          {% else %}
+          class="nav-link"  href="{{ url('backoffice_tvshow_browse') }}"
+          {% endif %}
+          >Tv Show</a>
+        </li>
+        <li class="nav-item">
+          <a 
+          {% if app.request.get('_route') starts with 'backoffice_category' %}
+          class="nav-link active" aria-current="page"
+          {% else %}
+          class="nav-link"  href="{{ url('backoffice_category_browse') }}"
+          {% endif %}
+          >Category</a>
+        </li>
+        <li class="nav-item">
+          <a 
+          {% if app.request.get('_route') starts with 'backoffice_character' %}
+          class="nav-link active" aria-current="page"
+          {% else %}
+          class="nav-link"  href="{{ url('backoffice_character_browse') }}"
+          {% endif %}
+          >Character</a>
+        </li>
+      </ul>
+      {% block backoffice_menu %}
+      {% endblock %}
+    </div>
+  </div>
+</nav>
+
+
+{% endblock %}

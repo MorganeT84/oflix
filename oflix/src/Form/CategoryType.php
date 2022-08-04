@@ -18,17 +18,18 @@ class CategoryType extends AbstractType
                 'help' => 'de 4 à 20 caractères.',
                 'attr' => ['class' => 'ajoutdeclassname'],
             ])
-            ->add('createdAt', null, [
-                "label" => "Date de création",
-                'widget' => 'single_text',
-            ])
-            ->add('ajouter', SubmitType::class); //on l'a mi dans twig
+            ;
+           // ->add('createdAt', null, [
+            //    "label" => "Date de création",
+            //    'widget' => 'single_text',
+            //])
+           // ->add('ajouter', SubmitType::class); on l'a mi dans twig
     }
 
-    // public function configureOptions(OptionsResolver $resolver): void
-    // {
-    //     $resolver->setDefaults([
-    //         'data_class' => Category::class,
-    //     ]);
-    // }
+     public function configureOptions(OptionsResolver $resolver): void
+      {
+         $resolver->setDefaults([
+             'data_class' => Category::class,
+          ]);
+      }
 }
