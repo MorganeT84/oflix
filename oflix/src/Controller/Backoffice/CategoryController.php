@@ -66,6 +66,7 @@ class CategoryController extends AbstractController
     #[Route('/add', name: 'add', methods: ['GET', 'POST'])]
     public function add(Request $request, ManagerRegistry $doctrine): Response
     {
+        
         $category = new Category();
         // on a créé un formulaire vierge sans données initiales
         $categoryForm = $this->createForm(CategoryType::class, $category);

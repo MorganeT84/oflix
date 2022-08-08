@@ -50,6 +50,14 @@ class Character
         $this->rolePlays = new ArrayCollection();
     }
 
+    /**
+     * Si l'on tente de faire un echo sur l'objet Character, PHP retournera la valeur du prénom
+     */
+    public function __toString()
+    {
+        return $this->firstname;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -78,6 +86,12 @@ class Character
 
         return $this;
     }
+
+    public function getGenderText(): ?string
+    {
+        return $this->gender === self::GENDER_MALE ? 'Homme' : 'Femme';
+    }
+
 
     public function getGender(): ?int
     {

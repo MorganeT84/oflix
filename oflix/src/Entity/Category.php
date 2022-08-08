@@ -20,13 +20,13 @@ class Category
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank(
-        message: 'Merci de saisir un nom pour la catégorie',   
+        message: 'Merci de saisir un nom pour la catégorie',
     )]
     #[Assert\Length(
-        min:2, 
-        max:20,
-        minMessage:'la catégorie doit avoir au moins 2 caracteres',
-        maxMessage:'la catégorie doit avoir max 20 caracteres'
+        min: 2,
+        max: 20,
+        minMessage: 'la catégorie doit avoir au moins 2 caracteres',
+        maxMessage: 'la catégorie doit avoir max 20 caracteres'
     )]
     private $name;
 
@@ -47,6 +47,13 @@ class Category
         $this->publishedAt = new DateTimeImmutable();
     }
 
+    /**
+     * Si l'on tente de faire un echo sur l'objet Character, PHP retournera la valeur du prénom
+     */
+    public function __toString()
+    {
+        return $this->id;
+    }
     public function getId(): ?int
     {
         return $this->id;
