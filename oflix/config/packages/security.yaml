@@ -37,6 +37,11 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
+    role_hierarchy:
+        ROLE_SUPER_ADMIN: [ROLE_ADMIN]
+        ROLE_ADMIN: [ROLE_USER_MANAGE]
+        ROLE_USER_MANAGE : [ROLE_USER_BROWSE, ROLE_USER_READ, ROLE_USER_EDIT, ROLE_USER_ADD, ROLE_USER_DELETE]
+        ROLE_USER:  [ROLE_USER_BROWSE, ROLE_USER_READ]
 
 when@test:
     security:
