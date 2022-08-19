@@ -7,6 +7,7 @@ use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\Length;
 
@@ -16,6 +17,7 @@ class Category
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups(['api_tvshows_browse', 'api_category_browse'])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
@@ -28,6 +30,8 @@ class Category
         minMessage: 'la catégorie doit avoir au moins 2 caracteres',
         maxMessage: 'la catégorie doit avoir max 20 caracteres'
     )]
+
+    #[Groups(['api_tvshows_browse', 'api_category_browse'])]
     private $name;
 
     #[ORM\Column(type: 'datetime_immutable')]
@@ -37,6 +41,7 @@ class Category
     private $updatedAt;
 
     #[ORM\ManyToMany(targetEntity: TvShow::class, mappedBy: 'categories')]
+    #[Groups(['api_category_browse'])]
     private $tvShows;
 
     public function __construct()

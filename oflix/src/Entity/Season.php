@@ -7,6 +7,7 @@ use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: SeasonRepository::class)]
 class Season
@@ -14,9 +15,11 @@ class Season
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups(['api_tvshows_browse'])]
     private $id;
 
     #[ORM\Column(type: 'integer')]
+    #[Groups(['api_tvshows_browse'])]
     private $seasonNumber;
 
     #[ORM\Column(type: 'datetime_immutable')]

@@ -6,6 +6,7 @@ use App\Repository\EpisodeRepository;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: EpisodeRepository::class)]
 class Episode
@@ -13,12 +14,14 @@ class Episode
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups(['api_tvshows_browse'])]
     private $id;
 
     #[ORM\Column(type: 'integer')]
     private $episodeNumber;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Groups(['api_tvshows_browse'])]
     private $title;
 
     #[ORM\Column(type: 'datetime_immutable')]

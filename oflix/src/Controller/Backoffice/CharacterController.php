@@ -1,19 +1,20 @@
 <?php
 
 namespace App\Controller\Backoffice;
- 
+
 use App\Entity\Character;
 use App\Form\CharacterType;
-//use App\Form\CharacterType;
 use App\Repository\CharacterRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/backoffice/character', name: 'backoffice_character_')]
+#[IsGranted('ROLE_USER')]
 class CharacterController extends AbstractController
 {
     #[Route('/', name: 'browse', methods: ['GET'])]
@@ -38,7 +39,7 @@ class CharacterController extends AbstractController
 
     //todo EDIT BY ID
     #[Route('/{id}/update', name: 'edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request , Character $character, ManagerRegistry $doctrine): Response
+    public function edit(Request $request, Character $character, ManagerRegistry $doctrine): Response
     {
         $characterForm =  $this->createForm(CharacterType::class, $character);
         $characterForm->handleRequest($request);
@@ -103,7 +104,7 @@ class CharacterController extends AbstractController
         ]);
     }
 
-    #[Route('/delete/{id}', name:"delete", requirements: ['id' => '\d+'], methods: ['GET'] )]
+    #[Route('/delete/{id}', name: "delete", requirements: ['id' => '\d+'], methods: ['GET'])]
     public function delete(Character $character, EntityManagerInterface $entityManager): Response
     {
         $this->addFlash('success', "character {$character->getId()} deleted");
@@ -111,7 +112,7 @@ class CharacterController extends AbstractController
         $entityManager->remove($character);
         $entityManager->flush();
 
-         // redirection
-         return $this->redirectToRoute('backoffice_character_browse');
+        // redirection
+        return $this->redirectToRoute('backoffice_character_browse');
     }
 }

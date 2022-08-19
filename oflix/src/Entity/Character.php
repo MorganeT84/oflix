@@ -7,6 +7,7 @@ use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CharacterRepository::class)]
 #[ORM\Table(name: '`character`')]
@@ -18,18 +19,22 @@ class Character
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups(['api_tvshows_browse', 'api_character_browse'])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Groups(['api_tvshows_browse', 'api_character_browse'])]
     private $firstname;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Groups(['api_tvshows_browse', 'api_character_browse'])]
     private $lastname;
 
     #[ORM\Column(type: 'integer', length: 255)]
     private $gender;
 
     #[ORM\Column(type: 'text')]
+    #[Groups(['api_tvshows_browse', 'api_character_browse'])]
     private $bio;
 
     #[ORM\Column(type: 'integer')]
