@@ -23,11 +23,11 @@ class TvShowController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: '_read')]
-    public function read($id, TvShowRepository $tvShowRepository): Response
+    #[Route('/{slug}', name: '_read')]
+    public function read(TvShow $tvShow, TvShowRepository $tvShowRepository): Response
     {
         // recup le tvshow dont id fourni via le paramConverter ou le repository
-        $tvShow =$tvShowRepository->findOneWithInfosDQL($id);
+        $tvShow =$tvShowRepository->findOneWithInfosDQL($tvShow->getId());
 
         return $this->render('tv_show/read.html.twig', [
             'tv_show' => $tvShow,

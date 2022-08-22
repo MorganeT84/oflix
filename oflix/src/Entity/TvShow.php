@@ -55,6 +55,9 @@ class TvShow
     #[ORM\Column(type: 'integer', nullable: true)]
     private $nbLikes;
 
+    #[ORM\Column(type: 'string', length: 255)]
+    private $slug;
+
     public function __construct()
     {
         $this->seasons = new ArrayCollection();
@@ -243,6 +246,18 @@ class TvShow
     public function setNbLikes(?int $nbLikes): self
     {
         $this->nbLikes = $nbLikes;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }
